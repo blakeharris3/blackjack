@@ -20,13 +20,6 @@ A simple version of a classic casino table game
 
 - *If User wins, they will win the amount that was bet*
 
-### Struggles 
-
-- Determining whether an Ace is going to count as 1 or 11 based off the hand that the user or dealer has.
-
-- Clearing the board and 'shuffling' the deck after that hand has concluded.
-
-
 ### Game rules
 - *User should be able to start by placing a $1, $5 or $10 bet.*
 
@@ -47,3 +40,9 @@ A simple version of a classic casino table game
 - *If User exceeds 21, User loses regardless of the Dealer's hand*
 
 - *If User draws an Ace and 10/Face Card, User was dealt a Blackjack and will receive 3:2 of their placed bet*
+
+### Struggles 
+
+- Determining whether an Ace is going to count as 1 or 11 based off the hand that the user or dealer has.
+
+- Clearing the board and 'shuffling' the deck after that hand has concluded.
