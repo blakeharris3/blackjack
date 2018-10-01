@@ -21,6 +21,7 @@ A simple version of a classic casino table game
 - *If User wins, they will win the amount that was bet*
 
 ### Game rules
+
 - *User should be able to start by placing a $1, $5 or $10 bet.*
 
 - *User should then be able to start the game and get drawn two random cards from the deck*
@@ -41,8 +42,14 @@ A simple version of a classic casino table game
 
 - *If User draws an Ace and 10/Face Card, User was dealt a Blackjack and will receive 3:2 of their placed bet*
 
+- *User will be able to 'Double Down' a bet. However, they will only receive one more card after placing that bet*
+
 ### Struggles 
 
 - Determining whether an Ace is going to count as 1 or 11 based off the hand that the user or dealer has.
 
 - Clearing the board and 'shuffling' the deck after that hand has concluded.
+
+- Arranging elements in jQuery, being put in the correct location
+
+- Finding the random cards value outside of the function. (You can't run same function because you'll get another random cards value)

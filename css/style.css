@@ -1,32 +1,50 @@
 body {
-    background: linear-gradient(90deg, #fa2d03, #fffd3b, #f52b02);
-    background-size: cover;
-}
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
+    background: linear-gradient(90deg, #f52b02, #fffd3b);
 }
 
 h1 {
-    text-align: left;
+    text-align: center;
+
 }
 
-div {
-    background: black;
-    border-radius: 50%;
-    color: rgba(255, 230, 0, 0.884);
-    display: table;
-    font-size: 3.0em;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+.table {
+    background-image: url(../table.png);
+    background-position: center;
+    display: block;
+    text-align: center;
     height: 600px;
-    margin: 0 auto;
-    width: 850px;
+    background-repeat: no-repeat;
+}
+
+.card {
+    height: 90px;
+    width: 70px;
+}
+
+button {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+   
+}
+
+input {
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
 }
 
 p {
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
+    color: rgb(247, 231, 17);
+   
+}
+
+#hit {
+    background-color: #47f502;
+    font-size: 16px
+}
+
+#stay {
+    background-color: #f52b02;
+    font-size: 14px
 }
