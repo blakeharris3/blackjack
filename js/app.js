@@ -328,6 +328,7 @@ const deck = {
 
 
 // Allow User to click a $1 button, $5 button or $10 button for betting
+
 let total = 100
 let betAmount = 0;
 $('input').click((e) => {
@@ -341,18 +342,31 @@ $('input').click((e) => {
     $('#total').text('Total Amount: $' + total)
 })
 
-const dealCards = () => {
 
+
+// Clicking start game button
+const $gameButton = $('<button/>')
+$gameButton.text('Deal')
+$gameButton.attr('id', 'deal')
+$('div').append($gameButton)
+$gameButton.on('click', () => {
+    console.log('deal1')
+    dealDeck()
+    // Disabling bettting buttons after cards are drawn
+    $gameButton.attr('disabled', 'true')
+    $('#one').attr('disabled', 'true')
+    $('#five').attr('disabled', 'true')
+    $('#ten').attr('disabled', 'true')
+})
+
+
+const dealDeck = () => {
+    console.log('dealdeck')
     // Random 2 cards from the deck and append them to the User div
     const getRandIndex = () => deck.cards[Math.floor(Math.random() * deck.cards.length)]
     let cardAmount = 0
     let dealAmount = 0
     
-
-
-
-
-
     // Running the dealers cards
     const runDealer = () => {
         let cardVal = getRandIndex()
@@ -365,10 +379,6 @@ const dealCards = () => {
         $('#dealAmount').text(dealAmount)
         $('#dealer').append($img);
     }
-
-
-
-
 
     // Random 2 cards to the dealer but leave one card face down
     const drawDealerCard = () => {
@@ -391,10 +401,6 @@ const dealCards = () => {
     drawDealerCard()
 
 
-
-
-
-
     // Drawing the users cards
     const drawUserCard = () => {
         let cardVal = getRandIndex()
@@ -405,7 +411,7 @@ const dealCards = () => {
             'class': 'card' 
         })
         cardAmount += cardVal.value
-        $('#user').append($img);
+        $('#user').append($img)
         let cardVal2 = getRandIndex()
         // Second Card appended to User
         const $img2 = $('<img/>')
@@ -430,12 +436,7 @@ const dealCards = () => {
     drawUserCard()
 
 
-
-
-
-
-
-    // Creating hit button that draws another card
+    // Creating HIT button that draws another card
     const $button = $('<button/>')
     $button.attr('id', 'hit')
     $button.text('Hit');
@@ -465,20 +466,20 @@ const dealCards = () => {
             })
             cardAmount += cardVal.value
             $('#cardAmount').text(cardAmount)
-            $('#user').append($img);
+            $('#user').append($img)
         }
     })
     
 
 
-    // Creating stay button that reveals dealers card
+    // Creating STAY button that reveals dealers card
     const $button2 = $('<button/>')
     $button2.attr('id', 'stay')
     $button2.text('Stay');
     $('div').append($button2)
     $button2.on('click', () => {
-        $button2.off()
-        $button.off()
+        $button2.attr('disabled', 'true')
+        $button.attr('disabled', 'true')
         let cardVal = getRandIndex()
         $('#cardBack').attr({
             'src': cardVal.face,
@@ -514,20 +515,33 @@ const dealCards = () => {
             betAmount = 0
             $('#bet').text('Bet Amount: $' + betAmount)
         }
+        const $cont = $('<button/>').text('Cont').attr('id', 'cont').on('click', () => {
+            // console.log('Works')
+            $('#hit').removeAttr('disabled')
+            $('#stay').removeAttr('disabled')
+            $('#one').removeAttr('disabled')
+            $('#five').removeAttr('disabled')
+            $('#ten').removeAttr('disabled')
+            $('#deal').removeAttr('disabled')
+            $('.card').remove()
+            $('#cont').remove()
+            $('#hit').remove()
+            $('#stay').remove()
+            
+        })
+        $('div').append($cont)
     })
 }
-// Clicking start game button
-const $gameButton = $('<button/>')
-$gameButton.text('Deal')
-$gameButton.attr('id','deal')
-$('div').append($gameButton)
-$gameButton.on('click', () => {
-    dealCards()
-    // Disabling bettting buttons after cards are drawn
-    $('#one').attr('disabled', 'true')
-    $('#five').attr('disabled', 'true')
-    $('#ten').attr('disabled', 'true')
-    $gameButton.off()
-})
 
 
+
+
+
+
+
+
+// Getting dealer to run once card amount > 21
+
+// turn deal back on once won or lost
+
+// Add animations to cards being displayed

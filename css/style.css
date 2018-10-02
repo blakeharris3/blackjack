@@ -36,7 +36,6 @@ input {
 
 p {
     color: rgb(247, 231, 17);
-   
 }
 
 #hit {
@@ -53,4 +52,8 @@ p {
 #deal {
     background-color: #02d9f5;
     font-size: 12px;
+}
+
+div {
+    height: 20px
 }

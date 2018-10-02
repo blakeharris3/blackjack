@@ -53,3 +53,5 @@ A simple version of a classic casino table game
 - Arranging elements in jQuery, being put in the correct location
 
 - Finding the random cards value outside of the function. (You can't run same function because you'll get another random cards value)
+
+- Getting Dealer's facedown card to flip automaticlly when User busts
