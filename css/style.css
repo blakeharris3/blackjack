@@ -17,8 +17,8 @@ h1 {
 }
 
 .card {
-    height: 90px;
-    width: 70px;
+    height: 110px;
+    width: 85px;
 }
 
 button {
@@ -40,7 +40,8 @@ p {
 
 #hit {
     background-color: #47f502;
-    font-size: 16px
+    font-size: 16px;
+    border-color: #000000
 }
 
 #stay {
@@ -50,10 +51,25 @@ p {
 }
 
 #deal {
-    background-color: #02d9f5;
+    background-color: #000000;
+    color: #fffd3b;
     font-size: 12px;
+    border-color: #fffd3b
 }
 
 div {
     height: 20px
+}
+
+#dealAmount, #cardAmount {
+    font-size: 30px
+}
+
+#cont {
+    background-color: #02e5f5;
+    border-color: #02e5f5;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    text-decoration: bold;
 }

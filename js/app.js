@@ -5,28 +5,28 @@ const deck = {
         {
         name: 'Ace of Hearts',
         value: 11,
-        value2: 11,
+        value2: 1,
         face: './Project/ace_heart.png',
         back: './Project/card_back.png'
     },
     {
         name: 'Ace of Diamonds',
         value: 11,
-        value2: 11,
+        value2: 1,
         face: './Project/ace_diamonds.jpeg',
         back: './Project/card_back.png'
     },
     {   
         name: 'Ace of Clubs',
         value: 11,
-        value2: 11,
+        value2: 1,
         face: './Project/ace_clubs.png',
         back: './Project/card_back.png'
     },
     {
         name: 'Ace of Spades',
         value: 11,
-        value2: 11,
+        value2: 1,
         face: './Project/ace_spade.jpeg',
         back: './Project/card_back.png'
     },
@@ -322,12 +322,7 @@ const deck = {
 ]
 }
 
-// const $img = $('<img/>')
-// $img.attr({'src': deck.cards[0].face, 'class': 'card' })
-// $('body').append($img);
-
-
-// Allow User to click a $1 button, $5 button or $10 button for betting
+// Allow User to click a $1, $5 or $10 button for betting
 
 let total = 100
 let betAmount = 0;
@@ -341,7 +336,6 @@ $('input').click((e) => {
     $('#bet').text('Bet Amount: $' + betAmount)
     $('#total').text('Total Amount: $' + total)
 })
-
 
 
 // Clicking start game button
@@ -366,18 +360,103 @@ const dealDeck = () => {
     const getRandIndex = () => deck.cards[Math.floor(Math.random() * deck.cards.length)]
     let cardAmount = 0
     let dealAmount = 0
+
+
+    const checkValue = () => {
+        if (cardAmount >= 21) {
+            $('#hit').remove()
+            let cardVal = getRandIndex()
+            $('#cardBack').attr({
+                'src': cardVal.face,
+                'class': 'card'
+            })
+            dealAmount += cardVal.value
+            $('#dealAmount').text(dealAmount)
+            while (dealAmount < 17) {
+                runDealer();
+            }
+            // Showing outcomes of dealers and users cards. Determining Winner
+            if (($cardOne + $cardTwo === 21) && ($cardOneDeal + $cardTwoDeal === 21)) {
+                $('#total').text('Total Amount: $' + (total + betAmount + betAmount + (betAmount / 2)))
+                total = total + betAmount * 2 + (betAmount / 2)
+                betAmount = 0
+                $('#bet').text('Bet Amount: $' + betAmount)
+            } else if (dealAmount > 21 && cardAmount < 22) {
+                // User wins and collects his bet ammount
+                $('#total').text('Total Amount: $' + (total + betAmount + betAmount))
+                total = total + betAmount * 2
+                betAmount = 0
+                $('#bet').text('Bet Amount: $' + betAmount)
+            } else if (dealAmount > 16 && dealAmount < 22 && cardAmount < 22 && dealAmount < cardAmount) {
+                // User wins and collects his bet ammount
+                $('#total').text('Total Amount: $' + (total + betAmount + betAmount))
+                total = total + betAmount * 2
+                betAmount = 0
+                $('#bet').text('Bet Amount: $' + betAmount)
+                $('#bet').text('Bet Amount: $0')
+            } else if (dealAmount > 16 && dealAmount < 22 && dealAmount === cardAmount) {
+                // User tied
+                $('#total').text('Total Amount: $' + (total + betAmount))
+                total = total + betAmount
+                betAmount = 0
+                $('#bet').text('Bet Amount: $' + betAmount)
+            } else if (dealAmount > 16 && dealAmount < 22 && dealAmount > cardAmount || cardAmount > 21) {
+                // You lost and removing your money
+                betAmount = 0
+                $('#bet').text('Bet Amount: $' + betAmount)
+            }
+            $('#stay').remove()
+            const $cont = $('<button/>').text('Cont').attr('id', 'cont').on('click', () => {
+                // console.log('Works')
+                $('#hit').removeAttr('disabled')
+                $('#stay').removeAttr('disabled')
+                $('#one').removeAttr('disabled')
+                $('#five').removeAttr('disabled')
+                $('#ten').removeAttr('disabled')
+                $('#deal').removeAttr('disabled')
+                $('.card').remove()
+                $('#cont').remove()
+                $('#hit').remove()
+                $('#stay').remove()
+                $('#cardAmount').text('')
+                $('#dealAmount').text('')
+
+            })
+            $('div').append($cont)
+        }
+    }
     
+
     // Running the dealers cards
+    let $cardOneDeal = parseInt($('#cardOneDealer').attr('data'))
+    let $cardTwoDeal = parseInt($('#cardTwoDealer').attr('data'))
     const runDealer = () => {
         let cardVal = getRandIndex()
         const $img = $('<img/>')
         $img.attr({
-            'src': cardVal.face,
+            'src': deck.cards[28].face,
             'class': 'card'
         })
-        dealAmount += cardVal.value
-        $('#dealAmount').text(dealAmount)
-        $('#dealer').append($img);
+        dealAmount += deck.cards[28].value
+        if (dealAmount > 21) {
+            console.log($cardTwoDeal)
+            if ($cardTwoDeal === 11) {
+                // console.log($cardTwoDeal)
+                $cardTwoDeal = 1
+                dealAmount -= 10
+                $('#dealAmount').text(dealAmount)
+                $('#dealer').append($img);
+            }
+        }
+        if (deck.cards[28].value === 11 && (dealAmount > 21)) {
+                dealAmount -= 10
+                console.log(dealAmount)
+                $('#dealAmount').text(dealAmount)
+                $('#dealer').append($img);
+            } else {
+                $('#dealAmount').text(dealAmount)
+                $('#dealer').append($img);
+            }
     }
 
     // Random 2 cards to the dealer but leave one card face down
@@ -386,7 +465,9 @@ const dealDeck = () => {
         const $img = $('<img/>')
         $img.attr({
             'src': cardVal.face,
-            'class': 'card'
+            'class': 'card',
+            'id': 'cardOneDealer',
+            'data': cardVal.value
         })
         $('#dealer').append($img);
         const $img2 = $('<img/>')
@@ -405,10 +486,14 @@ const dealDeck = () => {
     const drawUserCard = () => {
         let cardVal = getRandIndex()
         // First card appended to User
+
         const $img = $('<img/>')
         $img.attr({
+            // 'src': cardVal.face, 
             'src': cardVal.face, 
-            'class': 'card' 
+            'class': 'card',
+            'id': 'cardOneUser',
+            'data': cardVal.value
         })
         cardAmount += cardVal.value
         $('#user').append($img)
@@ -417,59 +502,149 @@ const dealDeck = () => {
         const $img2 = $('<img/>')
         $img2.attr({
             'src': cardVal2.face,
-            'class': 'card'
+            'class': 'card',
+            'id': 'cardTwoUser',
+            'data': cardVal2.value
         })
         $('#user').append($img2)
         cardAmount += cardVal2.value
+        if (cardVal.value === 11 && cardVal2.value === 11) {
+            cardVal.value = cardVal.value2
+            cardVal2.value = cardVal2.value2
+            cardAmount = 2
+        }
+        console.log(cardVal.value, cardVal2.value)
         $('#cardAmount').text(cardAmount)
-        // If first 2 cards equal 21, reveal to see if dealer has 21 as well
-        // if (cardAmount === 21) {
-        //     let cardVal3 = getRandIndex()
-        //     $('#cardBack').attr({
-        //         'src': cardVal3.face,
-        //         'class': 'card'
-        //     })
-        //     dealAmount += cardVal3.value
-        //     $('#dealAmount').text(dealAmount)
+        // Split button
+        // if (cardVal.value === cardVal2.value) {
+
         // }
     }
     drawUserCard()
 
 
+
+    // Creating a Double Down Button
+    $doubleDown = $('<button/>').text('Double').attr('id', 'double')
+    // $('#user').append($doubleDown)
+    const hitDouble = () => {
+        // $doubleDown.on('click', () => {
+        //     if (betAmount <= total) {
+        //         total -= betAmount
+        //         betAmount = betAmount * 2
+        //         $('#bet').text('Bet Amount: $' + betAmount)
+        //         $('#total').text('Total Amount: $' + total)
+        //         let cardVal5 = getRandIndex()
+        //         const $img5 = $('<img/>')
+        //         $img5.attr({
+        //             'src': cardVal5.face,
+        //             'class': 'card'
+        //         })
+        //         cardAmount += cardVal5.value
+        //         $('#cardAmount').text(cardAmount)
+        //         $('#user').append($img5)
+        //         checkValue()
+        //         $('#hit').remove()
+        //         $('#stay').remove()
+        //         let cardVal = getRandIndex()
+        //         $('#cardBack').attr({
+        //             'src': cardVal.face,
+        //             'class': 'card'
+        //         })
+        //         dealAmount += cardVal.value
+        //         $('#dealAmount').text(dealAmount)
+        //         while (dealAmount < 17) {
+        //             runDealer();
+        //         }
+        //         // Showing outcomes of dealers and users cards. Determining Winner
+        //         if (dealAmount > 21 && cardAmount < 22) {
+        //             // User wins and collects his bet ammount
+        //             $('#total').text('Total Amount: $' + (total + betAmount + betAmount))
+        //             total = total + betAmount * 2
+        //             betAmount = 0
+        //             $('#bet').text('Bet Amount: $' + betAmount)
+        //         } else if (dealAmount > 16 && dealAmount < 22 && cardAmount < 22 && dealAmount < cardAmount) {
+        //             // User wins and collects his bet ammount
+        //             $('#total').text('Total Amount: $' + (total + betAmount + betAmount))
+        //             total = total + betAmount * 2
+        //             betAmount = 0
+        //             $('#bet').text('Bet Amount: $' + betAmount)
+        //             $('#bet').text('Bet Amount: $0')
+        //         } else if (dealAmount > 16 && dealAmount < 22 && dealAmount === cardAmount) {
+        //             // User tied
+        //             $('#total').text('Total Amount: $' + (total + betAmount))
+        //             total = total + betAmount
+        //             betAmount = 0
+        //             $('#bet').text('Bet Amount: $' + betAmount)
+        //         } else if (dealAmount > 16 && dealAmount < 22 && dealAmount > cardAmount || cardAmount > 21) {
+        //             // You lost and removing your money
+        //             betAmount = 0
+        //             $('#bet').text('Bet Amount: $' + betAmount)
+        //         }
+        //         $('#stay').remove()
+        //         $('#double').remove()
+        //         const $cont = $('<button/>').text('Cont').attr('id', 'cont').on('click', () => {
+        //             // console.log('Works')
+        //             $('#hit').removeAttr('disabled')
+        //             $('#stay').removeAttr('disabled')
+        //             $('#one').removeAttr('disabled')
+        //             $('#five').removeAttr('disabled')
+        //             $('#ten').removeAttr('disabled')
+        //             $('#deal').removeAttr('disabled')
+        //             $('.card').remove()
+        //             $('#cont').remove()
+        //             $('#hit').remove()
+        //             $('#stay').remove()
+        //             $('#cardAmount').text('')
+        //             $('#dealAmount').text('')
+
+        //         })
+        //         $('div').append($cont)
+
+        //     } else {
+        //         alert(`You dont have enough`)
+        //     }
+        // })
+    }
+    // hitDouble()
+
+
+
     // Creating HIT button that draws another card
-    const $button = $('<button/>')
-    $button.attr('id', 'hit')
-    $button.text('Hit');
-    $('div').append($button)
-    $button.on('click', () => {
-        if (cardAmount > 21) {
-            $button.off()
-            $button2.off()
-            let cardVal = getRandIndex()
-            $('#cardBack').attr({
-                'src': cardVal.face,
-                'class': 'card'
+    let $cardOne = parseInt($('#cardOneUser').attr('data'))
+    let $cardTwo = parseInt($('#cardTwoUser').attr('data'))
+
+        const $button = $('<button/>')
+        $button.attr('id', 'hit')
+        $button.text('Hit');
+        $('div').append($button)
+        const hitClick = () => {
+            $button.on('click', () => {
+                $('#double').remove()
+                let cardVal = getRandIndex()
+                const $img = $('<img/>')
+                $img.attr({
+                    'src': cardVal.face,
+                    'class': 'card'
+                })
+                cardAmount += cardVal.value
+                // if($cardOne === 11 || $cardTwo === 11 && cardAmount > 21) {
+                    
+                // }
+                if (cardVal.value === 11 && (cardAmount > 21)) {
+                    cardVal.value = cardVal.value2
+                    cardAmount = cardAmount - 11 + cardVal.value2
+                }
+                $('#cardAmount').text(cardAmount)
+                $('#user').append($img)
+                checkValue()
             })
-            dealAmount += cardVal.value
-            $('#dealAmount').text(dealAmount)
-            while (dealAmount < 17) {
-                runDealer();
+            if ($cardOne + $cardTwo === 21) {
+                $button.attr('disabled', 'true') 
             }
-            betAmount = 0
-            $('#bet').text('Bet Amount: $' + betAmount)
-        } else {
-            let cardVal = getRandIndex()
-            const $img = $('<img/>')
-            $img.attr({
-                'src': cardVal.face,
-                'class': 'card'
-            })
-            cardAmount += cardVal.value
-            $('#cardAmount').text(cardAmount)
-            $('#user').append($img)
         }
-    })
-    
+        hitClick();
+
 
 
     // Creating STAY button that reveals dealers card
@@ -478,20 +653,31 @@ const dealDeck = () => {
     $button2.text('Stay');
     $('div').append($button2)
     $button2.on('click', () => {
+        $('#double').remove()
+        $('#hit').remove()
+        $('#stay').remove()
         $button2.attr('disabled', 'true')
         $button.attr('disabled', 'true')
         let cardVal = getRandIndex()
         $('#cardBack').attr({
-            'src': cardVal.face,
-            'class': 'card'
+            'src': deck.cards[0].face,
+            'class': 'card',
+            'id': 'cardTwoDeal',
+            'data': deck.cards[0].value
         })
-        dealAmount += cardVal.value
+        console.log($('#cardBack').attr('data'))
+        dealAmount += deck.cards[0].value
         $('#dealAmount').text(dealAmount)
         while (dealAmount < 17) {
             runDealer();
         }
                 // Showing outcomes of dealers and users cards. Determining Winner
-        if (dealAmount > 21 && cardAmount < 22) {
+        if (($cardOne + $cardTwo === 21) && ($cardOneDeal + $cardTwoDeal === 21) ) {
+            $('#total').text('Total Amount: $' + (total + betAmount + betAmount + (betAmount / 2)))
+            total = total + betAmount * 2 + (betAmount / 2)
+            betAmount = 0
+            $('#bet').text('Bet Amount: $' + betAmount)
+        } else if (dealAmount > 21 && cardAmount < 22) {
             // User wins and collects his bet ammount
             $('#total').text('Total Amount: $' + (total + betAmount + betAmount))
             total = total + betAmount * 2
@@ -515,7 +701,7 @@ const dealDeck = () => {
             betAmount = 0
             $('#bet').text('Bet Amount: $' + betAmount)
         }
-        const $cont = $('<button/>').text('Cont').attr('id', 'cont').on('click', () => {
+        const $cont = $('<button/>').text('Continue').attr('id', 'cont').on('click', () => {
             // console.log('Works')
             $('#hit').removeAttr('disabled')
             $('#stay').removeAttr('disabled')
@@ -527,6 +713,8 @@ const dealDeck = () => {
             $('#cont').remove()
             $('#hit').remove()
             $('#stay').remove()
+            $('#cardAmount').text('')
+            $('#dealAmount').text('')
             
         })
         $('div').append($cont)
@@ -536,12 +724,8 @@ const dealDeck = () => {
 
 
 
+// change dealer 2 aces to be 2 instead of 22
 
+// NaN on 4 Ace 8
 
-
-
-// Getting dealer to run once card amount > 21
-
-// turn deal back on once won or lost
-
-// Add animations to cards being displayed
+// 
