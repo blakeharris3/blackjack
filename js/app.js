@@ -1,4 +1,6 @@
 // Create and object with an array of cards with their face photo, back photo and value
+$('#dealer').hide()
+
 const deck = {  
     cards:
     [ 
@@ -323,7 +325,6 @@ const deck = {
 }
 
 // Allow User to click a $1, $5 or $10 button for betting
-
 let total = 100
 let betAmount = 0;
 let userCardsDrawn = []
@@ -362,6 +363,7 @@ $gameButton.on('click', () => {
 
 
 const dealDeck = () => {
+    $('#dealer').show()
     // Random 2 cards from the deck and append them to the User div
     const getRandIndex = () => deck.cards[Math.floor(Math.random() * deck.cards.length)]
     let cardAmount = 0
