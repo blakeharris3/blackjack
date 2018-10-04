@@ -2,34 +2,34 @@
 const deck = {  
     cards:
     [ 
-    //     {
-    //     name: 'Ace of Hearts',
-    //     value: 11,
-    //     value2: 1,
-    //     face: './Project/ace_heart.png',
-    //     back: './Project/card_back.png'
-    // },
-    // {
-    //     name: 'Ace of Diamonds',
-    //     value: 11,
-    //     value2: 1,
-    //     face: './Project/ace_diamonds.jpeg',
-    //     back: './Project/card_back.png'
-    // },
-    // {   
-    //     name: 'Ace of Clubs',
-    //     value: 11,
-    //     value2: 1,
-    //     face: './Project/ace_clubs.png',
-    //     back: './Project/card_back.png'
-    // },
-    // {
-    //     name: 'Ace of Spades',
-    //     value: 11,
-    //     value2: 1,
-    //     face: './Project/ace_spade.jpeg',
-    //     back: './Project/card_back.png'
-    // },
+        {
+        name: 'Ace of Hearts',
+        value: 11,
+        value2: 1,
+        face: './Project/ace_heart.png',
+        back: './Project/card_back.png'
+    },
+    {
+        name: 'Ace of Diamonds',
+        value: 11,
+        value2: 1,
+        face: './Project/ace_diamonds.jpeg',
+        back: './Project/card_back.png'
+    },
+    {   
+        name: 'Ace of Clubs',
+        value: 11,
+        value2: 1,
+        face: './Project/ace_clubs.png',
+        back: './Project/card_back.png'
+    },
+    {
+        name: 'Ace of Spades',
+        value: 11,
+        value2: 1,
+        face: './Project/ace_spade.jpeg',
+        back: './Project/card_back.png'
+    },
     {
         name: 'Two of Hearts',
         value: 2,
@@ -326,6 +326,10 @@ const deck = {
 
 let total = 100
 let betAmount = 0;
+let userCardsDrawn = []
+let dealerCardsDrawn = []
+let arrayAmount = 0
+let arrayAmountdealer = 0
 $('input').click((e) => {
     const value = $(e.target).val()
         // Stops total amount from going to negative value
@@ -358,7 +362,6 @@ $gameButton.on('click', () => {
 
 
 const dealDeck = () => {
-    console.log('dealdeck')
     // Random 2 cards from the deck and append them to the User div
     const getRandIndex = () => deck.cards[Math.floor(Math.random() * deck.cards.length)]
     let cardAmount = 0
@@ -387,45 +390,43 @@ const dealDeck = () => {
     // Running the dealers cards
     let $cardOneDeal = parseInt($('#cardOneDealer').attr('data'))
     let $cardTwoDeal = parseInt($('#cardTwoDealer').attr('data'))
+
+
+
+
     const runDealer = () => {
         let cardVal = getRandIndex()
+        dealerCardsDrawn.push(cardVal.value)
+        if (cardVal == 11) {
+            checkdealerAceValue(cardVal)
+        }
+        arrayAmountdealer += cardVal.value
         const $img = $('<img/>')
         $img.attr({
-            'src': deck.cards[28].face,
+            'src': cardVal.face,
             'class': 'card'
         })
-        dealAmount += deck.cards[28].value
-        if (dealAmount > 21) {
-            console.log($cardTwoDeal)
-            if ($cardTwoDeal === 11) {
-                // console.log($cardTwoDeal)
-                $cardTwoDeal = 1
-                dealAmount -= 10
-                $('#dealAmount').text(dealAmount)
-                $('#dealer').append($img);
-            }
-        }
-        if (deck.cards[28].value === 11 && (dealAmount > 21)) {
-                dealAmount -= 10
-                console.log(dealAmount)
-                $('#dealAmount').text(dealAmount)
-                $('#dealer').append($img);
-            } else {
-                $('#dealAmount').text(dealAmount)
-                $('#dealer').append($img);
-            }
+        dealAmount += cardVal.value
+        $('#dealAmount').text(dealAmount)
+        $('#dealer').append($img);
     }
 
-    // Random 2 cards to the dealer but leave one card face down
+
+
+
+
+    // Drawing 2 cards to the dealer but leave one card face down
     const drawDealerCard = () => {
         let cardVal = getRandIndex()
         const $img = $('<img/>')
         $img.attr({
-            'src': deck.cards[19].face,
+            'src': cardVal.face,
             'class': 'card',
             'id': 'cardOneDealer',
-            'data': deck.cards[19].value
+            'data': cardVal.value
         })
+        arrayAmountdealer += cardVal.value
+        dealerCardsDrawn.push(cardVal.value)
         $('#dealer').append($img);
         const $img2 = $('<img/>')
         $img2.attr({
@@ -433,17 +434,23 @@ const dealDeck = () => {
             'class': 'card',
             'id': 'cardTwoDealer'
         })
-        dealAmount += deck.cards[19].value
+        dealAmount += cardVal.value
         $('#dealer').append($img2);
     }
     drawDealerCard()
 
 
+    
+
+
+
+
     // Drawing the users cards
     const drawUserCard = () => {
-        let cardVal = getRandIndex()
+        let cardVal = deck.cards[7]
         // First card appended to User
-
+        userCardsDrawn.push(cardVal.value)
+        
         const $img = $('<img/>')
         $img.attr({
             'src': cardVal.face,
@@ -451,10 +458,12 @@ const dealDeck = () => {
             'id': 'cardOneUser',
             'data': cardVal.value
         })
+        arrayAmount += cardVal.value
         cardAmount += cardVal.value
         $('#user').append($img)
         let cardVal2 = getRandIndex()
         // Second Card appended to User
+        userCardsDrawn.push(cardVal2.value)
         const $img2 = $('<img/>')
         $img2.attr({
             'src': cardVal2.face,
@@ -463,13 +472,9 @@ const dealDeck = () => {
             'data': cardVal2.value
         })
         $('#user').append($img2)
+        arrayAmount += cardVal2.value
         cardAmount += cardVal2.value
-        // if (cardVal.value === 11 && cardVal2.value === 11) {
-        //     cardVal.value = cardVal.value2
-        //     cardVal2.value = cardVal2.value2
-        //     cardAmount = 2
-        // }
-        // console.log(cardVal.value, cardVal2.value)
+        console.log(userCardsDrawn)
         $('#cardAmount').text(cardAmount)
         // Split button
         // if (cardVal.value === cardVal2.value) {
@@ -477,6 +482,11 @@ const dealDeck = () => {
         // }
     }
     drawUserCard()
+
+
+
+
+
 
 
 
@@ -566,11 +576,12 @@ const dealDeck = () => {
 
 
 
+
+
     // Creating HIT button that draws another card
     let $cardOne = parseInt($('#cardOneUser').attr('data'))
     let $cardTwo = parseInt($('#cardTwoUser').attr('data'))
     let $cardThree = parseInt($('#cardThreeUser').attr('data'))
-
         const $button = $('<button/>')
         $button.attr('id', 'hit')
         $button.text('Hit');
@@ -586,26 +597,12 @@ const dealDeck = () => {
                     'id': 'cardThreeUser',
                     'data': cardVal.value
                 })
+                if (cardVal.value === 11) {
+                    checkUserAceValue(cardVal)
+                }
                 cardAmount += cardVal.value
-                // if($cardOne === 11 || $cardTwo === 11 && cardAmount > 21) {
-                    
-                // }
-                // Changing 11 ace to 1 ace of its going to bust
-                    if (cardVal.value === 11 && (cardAmount > 21)) {
-                        cardAmount -= 10
-                        $('#cardAmount').text(cardAmount)
-                        $('#user').append($img)
-                    } else if (($cardTwo === 11 || $cardOne === 11) && ((cardVal.value + cardAmount) > cardAmount)) {
-                        $('#cardTwoUser').attr('value', 1)
-                        if ('#cardTwoUser')
-                        cardAmount -= 10 
-                        $cardTwo = 1
-                        $('#cardAmount').text(cardAmount)
-                        $('#user').append($img)
-                    } else {
-                        $('#cardAmount').text(cardAmount)
-                        $('#user').append($img)
-                    }
+                $('#cardAmount').text(cardAmount)
+                $('#user').append($img)
                 checkValue()
             })
             if ($cardOne + $cardTwo === 21) {
@@ -613,6 +610,8 @@ const dealDeck = () => {
             }
         }
         hitClick();
+
+
 
 
 
@@ -630,11 +629,11 @@ const dealDeck = () => {
             // $button.attr('disabled', 'true')
             let cardVal = getRandIndex()
             $('#cardTwoDealer').attr({
-                'src': deck.cards[0].face,
-                'data': deck.cards[0].value
+                'src': cardVal.face,
+                'data': cardVal.value
             })
             console.log($('#cardTwoDealer'))
-            dealAmount += deck.cards[0].value
+            dealAmount += cardVal.value
             $('#dealAmount').text(dealAmount)
             while (dealAmount < 17) {
                 runDealer();
@@ -643,6 +642,9 @@ const dealDeck = () => {
         })
     }
     hitStay()
+
+
+
 
     const checkWinner = () => {
         // Showing outcomes of dealers and users cards. Determining Winner
@@ -692,5 +694,38 @@ const dealDeck = () => {
 
         })
         $('#contButton').append($cont)
+    }
+
+
+
+
+    const checkUserAceValue = (card) => {
+        for (let i = 0; i < userCardsDrawn.length; i++) {
+            if (arrayAmount > 10) {
+                console.log(arrayAmount)
+                card.value = 1
+                arrayAmount += userCardsDrawn[i]
+        } else {
+                card.value = 11
+                arrayAmount += userCardsDrawn[i]
+            }
+        }
+    }
+
+
+
+
+
+    const checkdealerAceValue = (card) => {
+        for (let i = 0; i < dealerCardsDrawn.length; i++) {
+            if (arrayAmountdealer > 10) {
+                console.log(arrayAmountdealer)
+                card.value = 1
+                arrayAmountdealer += dealerCardsDrawn[i]
+            } else {
+                card.value = 11
+                arrayAmountdealer += dealerCardsDrawn[i]
+            }
+        }
     }
 }

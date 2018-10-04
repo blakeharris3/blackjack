@@ -1,7 +1,6 @@
 body {
     
     background-image: url(../table.png), linear-gradient(90deg, #f52b02, #fffd3b);
-    /* background: linear-gradient(90deg, #f52b02, #fffd3b); */
     background-position: center;
     background-repeat: no-repeat;
 }
@@ -44,7 +43,8 @@ p {
 #hit {
     background-color: #47f502;
     font-size: 16px;
-    border-color: #000000
+    border-color: #000000;
+    margin: 20px
 }
 
 #stay {
@@ -54,10 +54,10 @@ p {
 }
 
 #deal {
-    background-color: #000000;
-    color: #fffd3b;
+    background-color: #27fc0b;
+    color: #000000;
     font-size: 12px;
-    border-color: #fffd3b
+    border-color: #000000;
 }
 
 div {
