@@ -4,7 +4,7 @@
 
 A simple version of a classic casino table game
 
-![Blackjack WireFrame](./Blackjack_Wireframe)
+![Blackjack WireFrame](https://i.imgur.com/IHFX8nG.png)
 
 
 ### Technologies
