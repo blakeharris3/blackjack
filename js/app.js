@@ -389,12 +389,13 @@ const dealDeck = () => {
     }
     
 
-    // Running the dealers cards
+   
     let $cardOneDeal = parseInt($('#cardOneDealer').attr('data'))
     let $cardTwoDeal = parseInt($('#cardTwoDealer').attr('data'))
 
+    
 
-
+    // Running the dealers cards
 
     const runDealer = () => {
         let cardVal = getRandIndex()
@@ -493,7 +494,7 @@ const dealDeck = () => {
 
 
     // Creating a Double Down Button
-    $doubleDown = $('<button/>').text('Double').attr('id', 'double')
+    // $doubleDown = $('<button/>').text('Double').attr('id', 'double')
     // $('#user').append($doubleDown)
     const hitDouble = () => {
         // $doubleDown.on('click', () => {
@@ -583,14 +584,13 @@ const dealDeck = () => {
     // Creating HIT button that draws another card
     let $cardOne = parseInt($('#cardOneUser').attr('data'))
     let $cardTwo = parseInt($('#cardTwoUser').attr('data'))
-    let $cardThree = parseInt($('#cardThreeUser').attr('data'))
         const $button = $('<button/>')
         $button.attr('id', 'hit')
         $button.text('Hit');
         $('div').append($button)
         const hitClick = () => {
             $button.on('click', () => {
-                $('#double').remove()
+                // $('#double').remove()
                 let cardVal = getRandIndex()
                 const $img = $('<img/>')
                 $img.attr({
@@ -624,7 +624,7 @@ const dealDeck = () => {
     $('div').append($button2)
     const hitStay = () => {
         $button2.on('click', () => {
-            $('#double').remove()
+            // $('#double').remove()
             $('#hit').remove()
             $('#stay').remove()
             // $button2.attr('disabled', 'true')
@@ -704,7 +704,6 @@ const dealDeck = () => {
     const checkUserAceValue = (card) => {
         for (let i = 0; i < userCardsDrawn.length; i++) {
             if (arrayAmount > 10) {
-                console.log(arrayAmount)
                 card.value = 1
                 arrayAmount += userCardsDrawn[i]
         } else {
