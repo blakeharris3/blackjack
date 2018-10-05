@@ -399,7 +399,7 @@ const dealDeck = () => {
     const runDealer = () => {
         let cardVal = getRandIndex()
         dealerCardsDrawn.push(cardVal.value)
-        if (cardVal == 11) {
+        if (cardVal === 11) {
             checkdealerAceValue(cardVal)
         }
         arrayAmountdealer += cardVal.value
@@ -634,8 +634,8 @@ const dealDeck = () => {
                 'src': cardVal.face,
                 'data': cardVal.value
             })
-            console.log($('#cardTwoDealer'))
             dealAmount += cardVal.value
+            arrayAmountdealer += cardVal.value
             $('#dealAmount').text(dealAmount)
             while (dealAmount < 17) {
                 runDealer();
@@ -721,7 +721,6 @@ const dealDeck = () => {
     const checkdealerAceValue = (card) => {
         for (let i = 0; i < dealerCardsDrawn.length; i++) {
             if (arrayAmountdealer > 10) {
-                console.log(arrayAmountdealer)
                 card.value = 1
                 arrayAmountdealer += dealerCardsDrawn[i]
             } else {
