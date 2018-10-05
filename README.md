@@ -45,7 +45,6 @@ A simple version of a classic casino table game
 
 - *If User draws an Ace and 10/Face Card, User was dealt a Blackjack and will receive 3:2 of their placed bet*
 
-- *User will be able to 'Double Down' a bet. However, they will only receive one more card after placing that bet*
 
 ### Struggles 
 
