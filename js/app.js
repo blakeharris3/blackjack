@@ -484,7 +484,7 @@ const dealDeck = () => {
         cardAmount += cardVal2.value
         console.log(userCardsDrawn)
         $('#cardAmount').text(cardAmount)
-        // Split button
+        // Split button 
         // if (cardVal.value === cardVal2.value) {
 
         // }
